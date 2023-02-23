@@ -10,8 +10,9 @@ We encrypt passwords so that if an attacker gains access to the computer on whic
 
 Complete the debugEncryptDecrypt function.
 
-Call the provided encrypt function
-Print the following message to the console: Encrypted password: ENCRYPTED, where ENCRYPTED is the result of the encrypt function.
-Call the provided decrypt function
-Print the following message to the console: Decrypted password: DECRYPTED, where DECRYPTED is the result of the decrypt function.
+1. Call the provided encrypt function
+2. Print the following message to the console: Encrypted password: ENCRYPTED, where ENCRYPTED is the result of the encrypt function.
+3. Call the provided decrypt function
+4. Print the following message to the console: Decrypted password: DECRYPTED, where DECRYPTED is the result of the decrypt function.
+
 Make sure you terminate both lines with a newline character (\n) if you're using fmt.Printf.
