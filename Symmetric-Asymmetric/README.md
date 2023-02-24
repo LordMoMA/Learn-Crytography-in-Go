@@ -5,7 +5,6 @@ In the context of password managers, cryptography is used to secure data at rest
 Protecting files at rest, or more specifically, protecting files for oneself is usually accomplished via symmetric encryption, which means encryption and decryption use the same key.
 
 ![Example image](image/pic1.webp)
-Symmetric Encryption
 
 Asymmetric encryption uses two keys, and we'll talk more about it later.
 
