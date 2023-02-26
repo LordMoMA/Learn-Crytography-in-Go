@@ -1,0 +1,43 @@
+/*
+Decoding
+We've encoded some raw data into hex and binary strings, now let's write some code to decode the hexadecimal version.
+
+Assignment
+Complete the getHexBytes function. It takes a string of the following format as input:
+
+48:65:6c:6c:6f
+It should return a []byte that represents the string encoded in each hex value. We're essentially reversing the process we used to encode the data in the last assignment.
+
+The following functions will help:
+
+strings.Split()
+hex.DecodeString()
+*/
+
+package main
+
+import (
+	"fmt"
+)
+
+func getHexBytes(s string) ([]byte, error) {
+	// ?
+}
+
+// don't touch below this line
+
+func testHex(s string) {
+	myBytes, err := getHexBytes(s)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("Hex: '%s', String: %v\n", s, string(myBytes))
+	fmt.Println("========")
+}
+
+func main() {
+	testHex("48:65:6c:6c:6f")
+	testHex("57:6f:72:6c:64")
+	testHex("50:61:73:73:77:6f:72:64")
+}
