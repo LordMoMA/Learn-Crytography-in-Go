@@ -62,3 +62,40 @@ func main() {
 	test([]byte("I'm lovin it"), []byte("mysecurepass"))
 	test([]byte("Don't tell him I'm in love"), []byte("c5f149783abf22a96e9a7bb999"))
 }
+
+/*
+Encrypting 'Shazam' using key 'Sk7p13'
+
+Encrypted ciphertext bytes: [0 3 86 10 80 94]
+
+Decrypted message: Shazam
+
+========
+
+Encrypting 'I'm lovin it' using key 'mysecurepass'
+
+Encrypted ciphertext bytes: [36 94 30 69 15 26 4 12 30 65 26 7]
+
+Decrypted message: I'm lovin it
+
+========
+
+Encrypting 'Don't tell him I'm in love' using key 'c5f149783abf22a96e9a7bb999'
+
+Encrypted ciphertext bytes: [39 90 8 22 64 25 67 93 95 13 66 14 91 95 65 112 17 8 25 8 89 66 14 86 79 92]
+
+Decrypted message: Don't tell him I'm in love
+
+========
+
+Perfect Security
+The One Time Pad has perfect security because an attacker who has access to only the ciphertext can infer absolutely nothing of interest about the plaintext.
+
+Ciphers used in production are usually not perfectly secure
+Most production ciphers are not perfectly secure, but are "close enough". In short, trade-offs are made that add to the practical security of the system while sacrificing the perfect theoretical security of the cipher itself.
+
+The big problem with the One Time Pad is that the key needs to be the same length as the message. That means to encrypt a 128 GB hard drive, I'd need a 128 GB key!! That's just not practical.
+
+Some ciphers are just crap
+The Caesar cipher is a great example of a cipher that is NOT perfectly secure OR practically secure. As we demonstrated earlier, when given access to the ciphertext of a Caesar cipher, an attacker can see the positions and patterns of characters in the plaintext.
+*/
