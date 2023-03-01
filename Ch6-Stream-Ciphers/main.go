@@ -20,6 +20,11 @@ import (
 	"fmt"
 )
 
+// you can certainly perform an XOR operation on two byte slices without using channels.
+// However, the purpose of using channels in this example is to showcase how Go's concurrency features can be used to perform the encryption/decryption in a more efficient way.
+// Using channels allows the text and key to be read and processed concurrently, which can improve performance if the size of the input is very large.
+// Additionally, channels can be used to handle errors and synchronize the flow of data between goroutines.
+// So while channels are not strictly necessary for performing an XOR operation, they can be a useful tool for implementing efficient and concurrent algorithms in Go.
 func crypt(textCh, keyCh <-chan byte, result chan<- byte) {
 	defer close(result) // close result channel when we're done
 
@@ -35,6 +40,14 @@ func crypt(textCh, keyCh <-chan byte, result chan<- byte) {
 		result <- resultByte             // write result to result channel
 	}
 }
+
+/*
+In the example of the one-time pad encryption, the crypt() function is designed to modify the result slice directly, not return a new slice. Therefore, there is no need to return anything from the function.
+
+The result slice is being modified using channels, where each byte from the plaintext and key slices is XORed together and written to the result slice via a channel. This is an alternative way of modifying the result slice directly, but using channels allows for concurrent processing, which can be more efficient than processing the plaintext and key slices sequentially in the same function.
+
+By modifying the result slice directly using channels, there is no need to allocate memory for a new slice and return it from the function.
+*/
 
 // don't touch below this line
 
