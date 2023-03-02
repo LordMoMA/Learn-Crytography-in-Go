@@ -21,3 +21,60 @@ While robust cryptography libraries take care of block padding for us, it's impo
 
 Complete the padWithZeros function. It takes a message (block) as a []byte and a desired output size. It should increase the size of block by adding zero-value-bytes until it has a length of desiredSize. Return the new byte slice.
 */
+
+package main
+
+import "fmt"
+
+func padWithZeros(block []byte, desiredSize int) []byte {
+	for len(block) < desiredSize {
+		block = append(block, byte(0))
+	}
+	return block
+}
+
+// don't touch below this line
+
+func test(block []byte, desiredSize int) {
+	fmt.Printf("Padding %v for a total of %v bytes...\n",
+		block,
+		desiredSize,
+	)
+	padded := padWithZeros(block, desiredSize)
+	fmt.Printf("Result: %v\n", padded)
+	fmt.Println("========")
+}
+
+func main() {
+	test([]byte{0xFF}, 4)
+	test([]byte{0xFA, 0xBC}, 8)
+	test([]byte{0x12, 0x34, 0x56}, 12)
+	test([]byte{0xFA}, 16)
+}
+
+/*
+
+Padding [255] for a total of 4 bytes...
+
+Result: [255 0 0 0]
+
+========
+
+Padding [250 188] for a total of 8 bytes...
+
+Result: [250 188 0 0 0 0 0 0]
+
+========
+
+Padding [18 52 86] for a total of 12 bytes...
+
+Result: [18 52 86 0 0 0 0 0 0 0 0 0]
+
+========
+
+Padding [250] for a total of 16 bytes...
+
+Result: [250 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+
+========
+*/
