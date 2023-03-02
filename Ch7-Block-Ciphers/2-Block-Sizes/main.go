@@ -78,3 +78,20 @@ Result: [250 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
 
 ========
 */
+
+/*
+Chunks Review
+Messages in a block cipher are broken up into blocks, and each block is encrypted separately.
+
+chunking
+
+For example, let's say we are using a cipher that requires 256-bit blocks. We have a message of 650 bits that we want to encrypt. The algorithm would break that message up into three blocks:
+
+block1 = first 256 bits
+block2 = next 256 bits
+block3 = last 138 bits
+The last block is then padded with extra garbage bits so that it also has 256 bits of data. That padding is stripped off when the message is decrypted.
+
+Fixed-Size Keys
+Block ciphers use fixed-size blocks and keys, but the message length can be variable due to chunking and padding.
+*/
