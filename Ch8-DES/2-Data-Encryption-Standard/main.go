@@ -31,6 +31,7 @@ Tip
 Don't be afraid to debug your code by printing out the values of different variables. Just be sure to remove any debug code before submitting your answer.
 */
 
+// Solution 1
 package main
 
 import (
@@ -71,6 +72,54 @@ func padMsg(plaintext []byte, blockSize int) []byte {
 	padding := make([]byte, padSize)
 	return append(plaintext, padding...)
 }
+
+// Solution 2
+
+import (
+    "crypto/cipher"
+    "crypto/des"
+    "crypto/rand"
+)
+
+func padMsg(plaintext []byte, blockSize int) []byte {
+    padding := blockSize - (len(plaintext) % blockSize)
+    if padding == 0 {
+        padding = blockSize
+    }
+    padtext := make([]byte, len(plaintext)+padding)
+    copy(padtext, plaintext)
+    return padtext
+}
+
+func encrypt(key, plaintext []byte) ([]byte, error) {
+    // Create a new cipher block
+    block, err := des.NewCipher(key)
+    if err != nil {
+        return nil, err
+    }
+
+    // Pad the plaintext with zeros
+    blockSize := block.BlockSize()
+    paddedText := padMsg(plaintext, blockSize)
+
+    // Generate a random iv and append it to the beginning of the ciphertext
+    iv := make([]byte, blockSize)
+    if _, err := rand.Read(iv); err != nil {
+        return nil, err
+    }
+    ciphertext := make([]byte, len(paddedText)+blockSize)
+    copy(ciphertext[:blockSize], iv)
+
+    // Create a new encrypter
+    mode := cipher.NewCBCEncrypter(block, iv)
+
+    // Encrypt the blocks
+    mode.CryptBlocks(ciphertext[blockSize:], paddedText)
+
+    // Return the entire ciphertext
+    return ciphertext, nil
+}
+
 
 // don't touch below this line
 
