@@ -17,6 +17,11 @@ roundKey4 = 1101011100010010
 roundKey5 = 1101011100010010
 roundKey6 = 1101011100010010
 roundKey7 = 1101011100010010
+
+A key schedule is just an algorithm that splits a master key into multiple "round keys" or "sub keys". This ensures that each round in a block cipher can use its own unique key for that round of encryption, increasing the security of the cipher.
+
+Key schedules must be deterministic - there can be no randomness in the derivation of the round keys.
+
 Assignment
 In the real world, there are many different production algorithms for key schedules. At Passly, we've been asked to implement a simple key schedule that can be used in our test suite. It doesn't need to be "production-level-secure", it just needs to get the high-level idea across.
 
@@ -51,7 +56,11 @@ this is wrong, and byte(roundNumber) is still wrong
 	return roundKey
 }
 */
+// In Go, the byte type is an alias for the uint8 type, and it represents an 8-bit unsigned integer.
+// In the given code example, roundNumber is of type int, but we need to XOR it with each byte of the masterKey, which is of type [4]byte. So we need to convert roundNumber to byte using the type conversion byte(roundNumber) to match the data type of the bytes in the masterKey.
 
+// you cannot use append() to rewrite the following code as it is trying to create a fixed-size byte array of length 4 as the return value,
+// but append() returns a slice, not a fixed-size array. To create a fixed-size byte array, you need to use the array declaration syntax like so:
 func deriveRoundKey(masterKey [4]byte, roundNumber int) [4]byte {
 	var roundKey [4]byte
 	for i := 0; i < 4; i++ {
