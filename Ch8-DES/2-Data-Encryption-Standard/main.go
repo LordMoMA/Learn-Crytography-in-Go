@@ -46,27 +46,30 @@ func encrypt(key, plaintext []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if len(plaintext) < des.BlockSize {
-		return nil, errors.New("ciphertext too short")
-	}
-	iv := plaintext[:des.BlockSize]
-	plaintext = plaintext[des.BlockSize:]
 
-	if len(plaintext)%des.BlockSize != 0 {
-		padMsg(plaintext, des.BlockSize)
-	}
+	blockSize := block.BlockSize()
+	paddedPlaintext := padMsg(plaintext, blockSize)
 
+	ciphertext := make([]byte, blockSize+len(paddedPlaintext))
+
+	// Generate IV
+	iv := make([]byte, blockSize)
+	for i := 0; i < blockSize; i++ {
+		iv[i] = byte(i)
+	}
+	copy(ciphertext[:blockSize], iv)
+
+	// Encrypt using CBC mode
 	mode := cipher.NewCBCEncrypter(block, iv)
-	mode.CryptBlocks(plaintext, plaintext)
-	return plaintext, nil
+	mode.CryptBlocks(ciphertext[blockSize:], paddedPlaintext)
 
+	return ciphertext, nil
 }
 
 func padMsg(plaintext []byte, blockSize int) []byte {
-	for len(plaintext) < blockSize {
-		plaintext = append(plaintext, 0)
-	}
-	return plaintext
+	padSize := blockSize - len(plaintext)%blockSize
+	padding := make([]byte, padSize)
+	return append(plaintext, padding...)
 }
 
 // don't touch below this line
