@@ -186,3 +186,18 @@ func main() {
 		[]byte("I hope my boyfriend never finds out about this"),
 	)
 }
+
+/*
+
+Encrypting 'Today I met my crush, what a hunk' with key '12344321'...
+
+Decrypted: 'Today I met my crush, what a hunk'
+
+========
+
+Encrypting 'I hope my boyfriend never finds out about this' with key 'p@$$w0rd'...
+
+Decrypted: 'I hope my boyfriend never finds out about this'
+
+========
+*/
