@@ -14,6 +14,19 @@ Use the math/rand package's rand.Read function to generate a random iv of the sp
 
 A note on math/rand vs crypto/rand
 In production, we would swap out the math/rand package for the crypto/rand package. The math/rand package is not cryptographically secure and should only be used for testing when we need to generate secure random values.
+
+DES Feistel Network
+DES is a 16-round Feistel network. This means that the original key is broken up into 16 round keys and that the round function uses 16 iterations.
+
+The round function of DES has four steps:
+
+Expansion
+Key Mixing
+Substitution
+Permutation
+While all the steps are important, we will be focusing on the "substitution" step in this course, as it provides the core security of DES.
+
+
 */
 
 package main
