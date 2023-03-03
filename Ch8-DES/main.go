@@ -43,7 +43,9 @@ roundKeys := [][]byte{
     {0x05, 0x06, 0x07, 0x08},
     {0x09, 0x0A, 0x0B, 0x0C},
 }
+One of the most interesting things about Feistel networks is that the round function does not have to be reversible, though it does have to be deterministic.
 
+A Feistel cipher is not a fully-fledged encryption algorithm but is rather a framework that more complete cipher implementations (like DES) utilize.
 */
 
 package main
