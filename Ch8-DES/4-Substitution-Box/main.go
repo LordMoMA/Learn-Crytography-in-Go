@@ -31,6 +31,9 @@ Note on the byte values
 While we're working with entire byte values, just understand that we only care about the last (smallest in value) 4 and 2 bits for the input and output respectively. For example:
 
 0b0110 -> 0b11 is the same as 0b00000110 -> 0b00000011)
+
+In the binary literal 0b00000011, the b prefix indicates that this is a binary literal, and the digits following the prefix represent the binary value.
+In this case, the binary value is 00000011, which is equivalent to the decimal value 3 and the hexadecimal value 0x03. Therefore, b is not a variable or a symbol, but rather part of the syntax used to represent a binary value in Go.
 */
 
 package main
