@@ -31,6 +31,16 @@ Tip
 Don't be afraid to debug your code by printing out the values of different variables. Just be sure to remove any debug code before submitting your answer.
 */
 
+/*
+slice1 := []int{1, 2, 3, 4, 5} 
+slice2 := []int{1, 2 } 
+
+copy(slice2, slice1)
+fmt.Println(slice2)
+
+the copy() function copies the elements from the source slice (slice1) into the destination slice (slice2) until either the destination slice is full or the source slice is exhausted. In this case, slice2 is only two elements long, so only the first two elements of slice1 are copied into slice2.
+*/
+
 // Solution 1
 package main
 
