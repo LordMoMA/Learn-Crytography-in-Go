@@ -83,6 +83,62 @@ func main() {
 	}
 }
 
+// solution 2:
+
+package main
+
+import (
+	"fmt"
+)
+
+func sBox(b byte) (byte, error) {
+    // Define the s-box as a two-dimensional slice
+    sbox := [][]byte{
+        {0b00, 0b10, 0b01, 0b11},
+        {0b10, 0b00, 0b11, 0b01},
+        {0b01, 0b11, 0b00, 0b10},
+        {0b11, 0b01, 0b10, 0b00},
+    }
+
+    // Extract the row and column indices
+    row := (b >> 2) & 0b11
+    col := b & 0b11
+
+	// did not work here
+    // if int(row) >= len(sbox) || int(col) >= len(sbox[0]) {
+    //     return 0, fmt.Errorf("invalid input")
+    // }
+
+	// Check if the upper 4 bits of the input are nonzero
+	if (b & 0b11110000) != 0 {
+		return 0x00, fmt.Errorf("invalid input")
+	}
+
+    // Look up the output in the s-box
+    output := sbox[row][col]
+
+    // Return the output and no error
+    return output, nil
+}
+
+
+// don't touch below this line
+
+func main() {
+	for i := 0; i <= 16; i++ {
+		b := byte(i)
+		subbed, err := sBox(b)
+		if err != nil {
+			fmt.Printf("Error with input %04b: %v\n", i, err)
+			continue
+		}
+		fmt.Printf("%04b -> %02b\n", i, subbed)
+	}
+}
+
+
+
+
 /*
 
 0000 -> 00
