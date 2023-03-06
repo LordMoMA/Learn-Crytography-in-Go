@@ -14,6 +14,17 @@ Example
 0b00010001
 0b11000000
 Each nonce above has a strength of 256 because there are 256 possible combinations of bits that could exist in an 8-bit nonce.
+
+Nonce Review
+Nonces in AES
+In some modes of AES, a nonce is used to prevent attacks that exploit the reuse of keys. It can be catastrophic if the same key is used to encrypt two different messages because some information will be leaked that an attacker can utilize.
+
+To be able to use the same key while staying secure, we combine the key with a random nonce for each new encryption. This provides uniqueness to each encryption and prevents information leakage.
+
+Nonces in Bitcoin
+In Bitcoin, a nonce is used to mine new coins. Miners increment (or randomly generate) new nonces and check if the result has a specific value. If it does, the miner earns some Bitcoin as a reward.
+
+We'll talk more about hashes later, but just know that at the end of the day, Bitcoin miners are just spending electricity to continuously loop through nonces trying to find the "golden nonce".
 */
 
 package main
