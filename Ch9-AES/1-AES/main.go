@@ -19,6 +19,16 @@ Use the cipher block to create a new GCM
 Use the GCM (which implements the AEAD interface) to decrypt the ciphertext using aesgcm.Open
 Return the plaintext as a []byte
 Return any errors that occur without modifying them.
+
+After DES was broken by an exhaustive search attack in 1997, the National Institute of Standards and Technology (NIST) requested proposals for a new ciphering algorithm. There were 15 different ciphers submitted and NIST eventually chose one to become the "Advanced Encryption Standard" (AES) that would replace the old "Data Encryption Standard" (DES).
+
+The Rijndael cipher won the contest and was dubbed "AES" in the year 2000.
+
+AES vs DES
+AES uses 128, 192, or 256 bit keys. DES uses 56 bit keys
+AES block size is 128 bits, DES block size is 64 bits
+DES is insecure by modern standards, AES is still considered secure
+AES uses a subs-perm network, DES uses Feistel
 */
 
 package main
