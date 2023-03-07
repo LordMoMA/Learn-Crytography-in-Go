@@ -12,6 +12,14 @@ Complete the genKeys() function. Use the ecdsa.GenerateKey function from the sta
 We won't be checking the values of the keys, so feel free to use a secure random source from the crypto/rand package.
 
 https://blog.boot.dev/cryptography/elliptic-curve-cryptography/
+
+Private Key: Is kept secret and is used to decrypt messages
+Public Key: Is shared with the world and is used to encrypt messages
+
+Why two keys?
+With symmetric encryption, if I want to send a message to my friend, I need to give them a copy of my key. Not only is it hard to securely transmit a key to them, but I also might not want to trust them with my encryption keys.
+
+Public key cryptography makes it easy to communicate securely over an untrusted medium (like the internet) with other parties. Symmetric encryption is generally only used to encrypt data for oneself.
 */
 
 package main
