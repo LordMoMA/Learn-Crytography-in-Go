@@ -113,3 +113,30 @@ func main() {
 	test(1024)
 	test(2048)
 }
+
+/*
+
+Generated p: 1244436454... it has 155 digits
+
+Generated q: 1198026774... it has 155 digits
+
+Generated n: 1490868191... it has 309 digits
+
+========
+
+Generated p: 1684475698... it has 309 digits
+
+Generated q: 1502288675... it has 309 digits
+
+Generated n: 2530568766... it has 617 digits
+
+========
+
+Generated p: 3051308107... it has 617 digits
+
+Generated q: 3055103471... it has 617 digits
+
+Generated n: 9322061992... it has 1233 digits
+
+========
+*/
