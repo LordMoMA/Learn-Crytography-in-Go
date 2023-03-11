@@ -38,7 +38,7 @@ Generate random e values in the range of [2, tot) until you find one that satisf
 package main
 
 import (
-	"crypto/rand"
+	crand "crypto/rand"
 	"errors"
 	"fmt"
 	"io"
@@ -63,17 +63,26 @@ func getE(tot *big.Int) *big.Int {
 	max := new(big.Int).Sub(tot, two)
 	for {
 		// Generate a random integer in the range [2, tot-1]
-		e, err := mrand.Int(rand.Reader, max)
-		if err != nil {
-			// handle error
-			return nil
-		}
+		e, _ := crand.Int(randReader, max)
 		e.Add(e, two)
 		if gcd(e, tot).Cmp(big.NewInt(1)) == 0 {
 			return e
 		}
 	}
 }
+
+//// solution2
+
+// totMinusTwo := new(big.Int)
+// totMinusTwo.Sub(tot, big.NewInt(1))
+
+// e, _ := crand.Int(randReader, totMinusTwo)
+// e.Add(e, big.NewInt(2))
+// for gcd(e, tot).Cmp(big.NewInt(1)) != 0 {
+// 	e, _ = crand.Int(randReader, totMinusTwo)
+// 	e.Add(e, big.NewInt(2))
+// }
+// return e
 
 // don't touch below this line
 
@@ -160,5 +169,28 @@ func main() {
 }
 
 /*
-For unknown reasons, the above code did not work!
+
+Generated p: 1244436454... it has 155 digits
+
+Generated q: 1198026774... it has 155 digits
+
+Generated n: 1490868191... it has 309 digits
+
+Generated tot: 1490868191... it has 309 digits
+
+Generated e: 6905949906... it has 308 digits
+
+========
+
+Generated p: 1684475698... it has 309 digits
+
+Generated q: 1502288675... it has 309 digits
+
+Generated n: 2530568766... it has 617 digits
+
+Generated tot: 2530568766... it has 617 digits
+
+Generated e: 1554307925... it has 616 digits
+
+========
 */
