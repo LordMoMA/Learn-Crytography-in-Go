@@ -25,3 +25,51 @@ h.GetHex
 A method on a pointer to a hasher. Uses h.Sum() to get the hash value of the data written to the hasher. It should encode the hash value as a lowercase hex string and return it.
 */
 
+package main
+
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
+	"hash"
+)
+
+type hasher struct {
+	hash hash.Hash
+}
+
+func newHasher() *hasher {
+	return &hasher{
+		hash: sha256.New(),
+	}
+}
+
+func (h *hasher) Write(data string) (int, error) {
+	bytes := []byte(data)
+	return h.hash.Write(bytes)
+}
+
+func (h *hasher) GetHex() string {
+	sum := h.hash.Sum(nil)
+	hexStr := hex.EncodeToString(sum)
+	return hexStr
+}
+
+// don't touch below this line
+
+func test(passwords []string) {
+	fmt.Printf("Hashing vault of length %v...\n", len(passwords))
+	h := newHasher()
+	for _, password := range passwords {
+		h.Write(password)
+		fmt.Printf("Adding '%v' to vault hash...\n", password)
+	}
+	fmt.Printf("Vault hash: %v\n", h.GetHex())
+	fmt.Println("========")
+}
+
+func main() {
+	test([]string{"password1", "password2", "password3"})
+	test([]string{"abercromni3", "f1tch", "123456", "abcdefg1234"})
+	test([]string{"IHeartNanciedrake", "m7B1rthd@y"})
+}
