@@ -40,7 +40,22 @@ package main
 
 import (
 	"fmt"
+	"math/bits"
 )
+
+/*
+This expression performs a bit rotation and bit shifting operation on a single byte of the input.
+
+Let's break it down step by step:
+
+input[i] << 2 - This shifts the bits in the byte input[i] to the left by 2 positions. For example, if the byte was originally 0b11010110, this would shift it to 0b01011000.
+
+input[i] >> 6 - This shifts the bits in the byte input[i] to the right by 6 positions. For example, if the byte was originally 0b11010110, this would shift it to 0b00000011.
+
+(input[i] << 2) | (input[i] >> 6) - This performs a bitwise OR operation between the results of the previous two steps. Essentially, it takes the two binary numbers produced in steps 1 and 2 and "merges" them together by setting all the bits that are 1 in either number to 1 in the result. In our example, this would give us 0b01011011.
+
+The end result of this expression is a rotated and shifted version of the original byte, where the first 2 bits have been moved to the end of the byte. This can be useful in creating "avalanche effect" in a hash function, where small changes in the input result in large changes in the output, making it difficult for an attacker to predict or manipulate the output.
+*/
 
 func hash(input []byte) [4]byte {
 	// Rotate bits left 3 bits and shift left 2 bits
@@ -55,6 +70,27 @@ func hash(input []byte) [4]byte {
 	// XOR values from rotated and shifted input
 	for i := 0; i < len(input); i++ {
 		final[i%4] ^= input[i]
+	}
+
+	return final
+}
+
+// solution2
+
+func hash(input []byte) [4]byte {
+	for i, b := range input {
+		rotated := bits.RotateLeft(uint(b), 3)
+		input[i] = byte(rotated)
+	}
+
+	for i, b := range input {
+		shifted := b << 2
+		input[i] = byte(shifted)
+	}
+
+	final := [4]byte{}
+	for i, b := range input {
+		final[i%len(final)] ^= b
 	}
 
 	return final
