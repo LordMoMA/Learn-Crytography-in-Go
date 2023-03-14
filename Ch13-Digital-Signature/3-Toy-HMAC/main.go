@@ -46,8 +46,8 @@ func hmac(message, key string) string {
 	}
 
 	halfLen := len(keyBytes) / 2
-	keyFirstHalf := keyBytes[:halfLen]
-	keySecondHalf := keyBytes[halfLen:]
+	keyFirstHalf := keyBytes[:halfLen-1]
+	keySecondHalf := keyBytes[halfLen-1:]
 
 	h := sha256.New()
 	h.Write(keySecondHalf)
@@ -61,6 +61,11 @@ func hmac(message, key string) string {
 
 	return hex.EncodeToString(finalHash)
 }
+
+// The reason why h.Write(keySecondHalf + []byte(message)) does not work is that keySecondHalf is a slice of bytes, and the + operator is not defined for slices.
+// To concatenate two slices of bytes, we need to use the append function. So to concatenate keySecondHalf and message, we would use append(keySecondHalf, []byte(message)...). However, we cannot pass the result of append directly to h.Write because h.Write expects a slice of bytes, not a slice of bytes combined with another slice of bytes. Instead, we need to write each slice of bytes to the hash function separately using two calls to h.Write.
+// Thus, we use h.Write(keySecondHalf) followed by h.Write([]byte(message)) to write the key second half and the message to the hash function separately.
+// Regarding the h.Reset() step, it is necessary to reset the hash function state before writing new data to it. Otherwise, the new data would be appended to the previous data, and the resulting hash would be incorrect.
 
 // don't touch below this line
 
