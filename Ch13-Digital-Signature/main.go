@@ -38,6 +38,21 @@ func checksumMatches(message string, checksum string) bool {
 	}
 }
 
+// solution2:
+func checksumMatches(message string, checksum string) bool {
+	// Convert message to a slice of bytes
+	messageBytes := []byte(message)
+
+	// Hash the message
+	hash := sha256.Sum256(messageBytes)
+
+	// Convert the hash to a lowercase hexadecimal string
+	hashHex := hex.EncodeToString(hash[:])
+
+	// Check if the hash matches the checksum
+	return hashHex == checksum
+}
+
 // don't touch below this line
 
 func test(message, checksum string) {
