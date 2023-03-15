@@ -12,6 +12,7 @@ Key Stretching
 Key Separation
 Key Whitening
 Key Strengthening
+
 1. Key Stretching
 Key stretching takes a short key and stretches it into a longer key. This is useful when you need a longer key than what you have available. For example, it's common to take a human-friendly password and stretch it into a 256-bit key.
 
