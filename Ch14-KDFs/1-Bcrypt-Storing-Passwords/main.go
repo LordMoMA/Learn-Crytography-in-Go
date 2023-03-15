@@ -42,3 +42,82 @@ Use a cost factor of 13
 Docs for bcrypt.GenerateFromPassword
 Docs for bcrypt.CompareHashAndPassword
 */
+
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"golang.org/x/crypto/bcrypt"
+)
+
+func hashPassword(password string) (string, error) {
+	passwd := []byte(password)
+	cost := 10
+	hashedPassword, err := bcrypt.GenerateFromPassword(passwd, cost)
+	if err != nil {
+		panic(err)
+	}
+
+	return string(hashedPassword), nil
+}
+
+func checkPasswordHash(password, hash string) bool {
+	passwd := []byte(password)
+	hashed := []byte(hash)
+	err := bcrypt.CompareHashAndPassword(hashed, passwd)
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
+}
+
+// don't touch below this line
+
+func test(password1, password2 string) {
+	defer fmt.Println("========")
+	fmt.Printf("Hashing '%s'...\n", password1)
+	hashed, err := hashPassword(password1)
+	if err != nil {
+		log.Printf("Error hashing password: %v\n", err)
+		return
+	}
+	fmt.Printf("Bcrypt output generated with len: %v\n", len(hashed))
+	match := checkPasswordHash(password2, hashed)
+	fmt.Printf("%v has a matching hash: %v\n", password2, match)
+}
+
+func main() {
+	test("thisIsAPassword", "thisIsAPassword")
+	test("thisIsAPassword", "thisIsAnotherPassword")
+	test("corr3ct h0rse", "corr3ct h0rse")
+}
+
+/*
+
+Hashing 'thisIsAPassword'...
+
+Bcrypt output generated with len: 60
+
+thisIsAPassword has a matching hash: true
+
+========
+
+Hashing 'thisIsAPassword'...
+
+Bcrypt output generated with len: 60
+
+thisIsAnotherPassword has a matching hash: false
+
+========
+
+Hashing 'corr3ct h0rse'...
+
+Bcrypt output generated with len: 60
+
+corr3ct h0rse has a matching hash: true
+
+========
+*/
