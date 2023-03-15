@@ -28,3 +28,117 @@ Use crypto/rand to generate a random salt of the specified length. Use rand.Read
 hashPassword
 Append the salt directly to the end of the password, then hash it with SHA-256. Use crypto/sha256. Return the result of the hash.
 */
+
+package main
+
+import (
+	"crypto/rand"
+	"crypto/sha256"
+	"fmt"
+)
+
+func generateSalt(length int) ([]byte, error) {
+	b := make([]byte, length)
+	_, err := rand.Read(b)
+	if err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+func hashPassword(password, salt []byte) []byte {
+	password = append(password, salt...)
+	h := sha256.New()
+	h.Write(password)
+	sum := h.Sum(nil)
+	return sum
+}
+
+//////////
+// When appending a byte slice to another byte slice, the second argument must be a slice of bytes ([]byte), not a single byte. To append a byte to a byte slice, you can wrap it in a slice of bytes first.
+
+// Here's an example of how to do it:
+salt := []byte("somesalt")
+password := []byte("password")
+hashedPassword := append(password, salt...)
+//In this example, the append function is used to concatenate the password byte slice and the salt byte slice. The ... syntax is used to expand the salt byte slice into individual bytes, which are then appended to the password byte slice. 
+//The resulting byte slice is stored in the hashedPassword variable.
+
+// solution 2
+
+func generateSalt(length int) ([]byte, error) {
+	salt := make([]byte, length)
+	_, err := rand.Read(salt)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate salt: %v", err)
+	}
+	return salt, nil
+}
+
+// hashPassword appends the salt directly to the end of the password, then hashes it with SHA-256
+func hashPassword(password, salt []byte) []byte {
+	passwordWithSalt := append(password, salt...)
+	hash := sha256.Sum256(passwordWithSalt)
+	return hash[:]
+}
+// don't touch below this line
+
+func test(password1, password2 string, saltLen int) {
+	defer fmt.Println("========")
+	fmt.Printf("Hashing '%s' with salt length %v...\n", password1, saltLen)
+	salt, err := generateSalt(saltLen)
+	if err != nil {
+		fmt.Printf("Error generating salt: %v", err)
+		return
+	}
+	hashed := hashPassword([]byte(password1), salt)
+	fmt.Println("Hash generated")
+
+	fmt.Printf("Checking first hash against hash of '%v'...\n", password2)
+	hashed2 := hashPassword([]byte(password2), salt)
+
+	if string(hashed) == string(hashed2) {
+		fmt.Println("Hashes match!")
+	} else {
+		fmt.Println("Hashes don't match!")
+	}
+}
+
+func main() {
+	test("samepass", "samepass", 16)
+	test("passone", "passtwo", 24)
+	test("correct horse battery staple", "correct horse battery staple", 32)
+}
+
+/*
+
+Hashing 'samepass' with salt length 16...
+
+Hash generated
+
+Checking first hash against hash of 'samepass'...
+
+Hashes match!
+
+========
+
+Hashing 'passone' with salt length 24...
+
+Hash generated
+
+Checking first hash against hash of 'passtwo'...
+
+Hashes don't match!
+
+========
+
+Hashing 'correct horse battery staple' with salt length 32...
+
+Hash generated
+
+Checking first hash against hash of 'correct horse battery staple'...
+
+Hashes match!
+
+========
+*/
